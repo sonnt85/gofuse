@@ -7,11 +7,8 @@ import (
 	pathpkg "path"
 	"strings"
 
-	"golang.org/x/net/context"
-)
-
-import (
 	"github.com/sonnt85/gofuse"
+	"golang.org/x/net/context"
 )
 
 // A Tree implements a basic read-only directory tree for FUSE.
@@ -77,7 +74,7 @@ func (t *tree) add(name string, n Node) {
 	t.dir = append(t.dir, treeDir{name, n})
 }
 
-func (t *tree) Attr(ctx context.Context, a *fuse.Attr) error {
+func (t *tree) Attr(ctx context.Context, a *gofuse.Attr) error {
 	a.Mode = os.ModeDir | 0555
 	return nil
 }
@@ -87,13 +84,13 @@ func (t *tree) Lookup(ctx context.Context, name string) (Node, error) {
 	if n != nil {
 		return n, nil
 	}
-	return nil, fuse.ENOENT
+	return nil, gofuse.ENOENT
 }
 
-func (t *tree) ReadDirAll(ctx context.Context) ([]fuse.Dirent, error) {
-	var out []fuse.Dirent
+func (t *tree) ReadDirAll(ctx context.Context) ([]gofuse.Dirent, error) {
+	var out []gofuse.Dirent
 	for _, d := range t.dir {
-		out = append(out, fuse.Dirent{Name: d.name})
+		out = append(out, gofuse.Dirent{Name: d.name})
 	}
 	return out, nil
 }

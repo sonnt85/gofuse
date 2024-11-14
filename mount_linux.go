@@ -13,7 +13,7 @@ import (
 
 func handleFusermountStderr(errCh chan<- error) func(line string) (ignore bool) {
 	return func(line string) (ignore bool) {
-		if line == `fusermount: failed to open /etc/fuse.conf: Permission denied` {
+		if line == `fusermount: failed to open /etc/gofuse.conf: Permission denied` {
 			// Silence this particular message, it occurs way too
 			// commonly and isn't very relevant to whether the mount
 			// succeeds or not.

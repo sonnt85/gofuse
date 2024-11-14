@@ -1,6 +1,6 @@
 // See the file LICENSE for copyright and licensing information.
 
-// Adapted from Plan 9 from User Space's src/cmd/9pfuse/fuse.c,
+// Adapted from Plan 9 from User Space's src/cmd/9pfuse/gofuse.c,
 // which carries this notice:
 //
 // The files in this directory are subject to the following license.
@@ -22,7 +22,7 @@
 
 // Package fuse enables writing FUSE file systems on Linux, OS X, and FreeBSD.
 //
-// On OS X, it requires OSXFUSE (http://osxfuse.github.com/).
+// On OS X, it requires OSXFUSE (http://osxgofuse.github.com/).
 //
 // There are two approaches to writing a FUSE file system.  The first is to speak
 // the low-level message protocol, reading from a Conn using ReadRequest and
@@ -41,7 +41,7 @@
 //
 // The hellofs subdirectory contains a simple illustration of the fs.Serve approach.
 //
-// Service Methods
+// # Service Methods
 //
 // The required and optional methods for the FS, Node, and Handle interfaces
 // have the general form
@@ -60,7 +60,7 @@
 // including any []byte fields such as WriteRequest.Data or
 // SetxattrRequest.Xattr.
 //
-// Errors
+// # Errors
 //
 // Operations can return errors. The FUSE interface can only
 // communicate POSIX errno error numbers to file system clients, the
@@ -71,7 +71,7 @@
 // Error messages will be visible in the debug log as part of the
 // response.
 //
-// Interrupted Operations
+// # Interrupted Operations
 //
 // In some file systems, some operations
 // may take an undetermined amount of time.  For example, a Read waiting for
@@ -79,12 +79,12 @@
 // is cancelled and no longer needed, the context will be cancelled.
 // Blocking operations should select on a receive from ctx.Done() and attempt to
 // abort the operation early if the receive succeeds (meaning the channel is closed).
-// To indicate that the operation failed because it was aborted, return fuse.EINTR.
+// To indicate that the operation failed because it was aborted, return gofuse.EINTR.
 //
 // If an operation does not block for an indefinite amount of time, supporting
 // cancellation is not necessary.
 //
-// Authentication
+// # Authentication
 //
 // All requests types embed a Header, meaning that the method can
 // inspect req.Pid, req.Uid, and req.Gid as necessary to implement
@@ -93,11 +93,10 @@
 // AllowOther, AllowRoot), but does not enforce access modes (to
 // change this, see DefaultPermissions).
 //
-// Mount Options
+// # Mount Options
 //
 // Behavior and metadata of the mounted file system can be changed by
 // passing MountOption values to Mount.
-//
 package gofuse // import "github.com/sonnt85/gofuse"
 
 import (
